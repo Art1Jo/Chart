@@ -1,5 +1,33 @@
-
+<!-- DB Mig -->
 $table->foreignId('category_id')
             ->constrained('categories')
             ->onUpdate('cascade')
             ->onDelete('cascade');
+
+<!-- controller create for img -->
+$path = $request->file('image')->store('public');
+$path = str_replace('public', '/storage', $path);
+
+'image' => $path,
+
+<!-- controller update for img -->
+
+<!-- for HTML -->
+
+enctype="multipart/form-data"
+
+<!-- for HTML -->
+
+$params = [
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'patronymic' => $request->patronymic,
+            'position' => $request->position
+        ];
+
+        if ($request->image) {
+            $path = $request->file('image')->store('public');
+            $params['image'] = str_replace('public', '/storage', $path);
+        }
+
+        $teacher->update($params);
