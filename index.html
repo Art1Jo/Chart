@@ -9,3 +9,49 @@
       </ul>
     </header>
 </div>
+
+$cremeditals = $request->validate([
+            'login' => 'required|exists:users"alpha_dash',
+            'password' => 'required',
+        ]);
+
+        if (!Auth::attempt($cremeditals)) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'login' => 'Неверный логин или пароль'
+                ]);
+        }
+
+        return redirect(RouteServiceProvider::HOME);
+
+<!-- Model -->
+
+public function isAdmin()
+    {
+        return $this->is_admin === 1;
+    }
+
+<!-- Middleware -->
+
+public function handle($request, Closure $next)
+    {
+
+        if(!Auth::user()->isAdmin()){
+            return redirect()->route('index');
+        }
+
+        return $next($request);
+    }
+
+<!-- Kernel -->
+
+'isadmin' => \App\Http\Middleware\CheckIsAdmin::class,
+
+<!-- Route -->
+middleware(['auth', 'isadmin'])
+
+<!-- Uses -->
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
