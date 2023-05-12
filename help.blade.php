@@ -1,4 +1,4 @@
-$table->foreignId('categoryintelligences_id')
+$table->foreignId('category_id')
             ->constrained('categoryintelligences')
             ->onUpdate('cascade')
             ->onDelete('cascade');
